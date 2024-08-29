@@ -1,17 +1,16 @@
 pub fn factorial(n: u32) -> u32 {
-    let mut result = 1;
+    let mut result: u32 = 1;
+
     for i in 1..=n {
-        // Use saturating multiplication to stop at the maximum value of u32
-        // rather than overflowing and wrapping around
-        result *= i;
-        let y = result.check_add(1);
-        match (y) {
-            
+        // Specify the type of i explicitly as u32
+        match result.checked_mul(i as u32) {
+            Some(val) => result = val,
+            None => return u32::MAX,  // Return u32::MAX on overflow
         }
     }
-    println!("result: {}", u32::MAX);
     result
 }
+
 
 #[cfg(test)]
 mod tests {
